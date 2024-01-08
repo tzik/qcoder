@@ -1,0 +1,20 @@
+#!/bin/bash
+
+base_dir="$(realpath "$(dirname "$0")/..")"
+venv_dir="${base_dir}/venv"
+req_file="${base_dir}/requirements.txt"
+stamp_file="${venv_dir}/requirements.txt"
+
+if [ ! -e "${venv_dir}" ]; then
+  python -m venv "${venv_dir}"
+fi
+
+source "${venv_dir}/bin/activate"
+
+if ! cmp "${req_file}" "${stamp_file}" >/dev/null 2>&1; then
+  pip install --upgrade pip
+  pip install -r "${req_file}"
+  cp "${req_file}" "${stamp_file}"
+fi
+
+exec "$@"

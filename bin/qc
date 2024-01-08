@@ -1,0 +1,3 @@
+#!/bin/bash
+scripts_dir="$(realpath -Lqs "$(dirname "$0")/../scripts")"
+exec "${scripts_dir}/run" python "${scripts_dir}/$(basename "$0").py" "$@"
